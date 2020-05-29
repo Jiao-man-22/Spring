@@ -1,0 +1,24 @@
+1 .0解决spring使用动态代理类型转换失败的问题--java.lang.ClassCastException: com.sun.proxy.$Proxy$ cannot be cast to ...
+
+一枪尽骚丶魂 2015-11-24 20:43:54  15216  收藏 1
+展开
+转载自：http://blog.csdn.net/yinzn2011/article/details/46455973
+
+今天在学习spring aop中的动态代理时，碰到了一个类型转换的问题：java.lang.ClassCastException: com.sun.proxy.$Proxy8 cannot be cast to com.bjsxt.service.UserServiceImpl01_AOP.
+首先介绍一下spring的动态代理。
+spring使用的动态代理有两种：JDK Proxy 和CGLIB。使用前者必须实现至少一个接口才能实现对方法的拦截。使用后者需要两个jar包：asm.jar和cglib.jar，并修改spring配置文件。
+  我在测试时使用了JDK Proxy，经过查找资料找到了问题的原因。下面是我的测试用例：
+
+ApplicationContext ac = new ClassPathXmlApplicationContext("./com/bjsxt/springconfig/annotation_01_AOP.xml");
+UserServiceImpl01_AOP userService = (UserServiceImpl01_AOP)ac.getBean("userServiceImpl01_AOP");
+
+userService.method3();
+
+   原因：红色部分即为报错的根源。不能用接口的实现类（UserServiceImpl01_AOP）来转换Proxy的实现类，它们是同级，应该用共同的接口来转换。将红色代码修改：
+
+UserService01_AOP userService = (UserService01_AOP)ac.getBean("userServiceImpl01_AOP");//UserService01_AOP是接口
+
+  修改之后，程序运行正常。
+
+  读者可以了解一下JDK Proxy的工作原理，然后会很容易理解这个错误出现的原因。
+=============================================================
