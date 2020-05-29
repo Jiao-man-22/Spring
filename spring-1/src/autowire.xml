@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 自动装配 byName或byType -->
+	<bean id="car" class="com.asguigu.spring.beans.autowire.Car" autowire="byName">
+	</bean>
+	<bean id="address" class="com.asguigu.spring.beans.autowire.Address"
+	p:city="BeiJing" p:street="WuDaoKou"></bean>
+<!-- bean配置的继承，使用parent 属性 -抽象bean不能被实例化，只能作为模板有其他bean继承       -->
+	<bean id="address2" class="com.asguigu.spring.beans.autowire.Address"
+	p:street="DaZhongSi" parent="address" abstract="true"></bean>
+	
+	<bean id="person" class="com.asguigu.spring.beans.autowire.Person"
+	p:name="Tom"   depends-on="car">
+	</bean>
+</beans>

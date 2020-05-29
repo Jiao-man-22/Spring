@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--使用scope属性 配置bean的作用域  -->
+	<bean id="car" class="com.asguigu.beans.scope.Car" scope="prototype">
+	<property name="brand" value="Audi"></property>
+	<property name="price" value="300000"></property>
+	</bean>
+	<!-- bean的初始化方法 -->
+	<bean id="car2" class="com.asguigu.beans.scope.Car"
+	init-method="init"
+	destroy-method="destory">
+	</bean>
+	<!--配置处理器,不需要id ioc自动识别 ;返回值是返回给用户的那个bean -->
+	<bean class="com.asguigu.beans.scope.MyBeanPostProcessor">
+	</bean>
+	<!--配置bean   -->
+
+</beans>
